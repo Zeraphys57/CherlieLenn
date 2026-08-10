@@ -440,22 +440,7 @@ export const testimonialsSection = {
 /* -------------------------------------------------------------------------- */
 
 /**
- * Dua pola yang didukung:
- *
- *   showPrices: true   -> harga di field `price` ditampilkan terbuka.
- *   showPrices: false  -> semua harga disembunyikan, diganti teks
- *                         `hiddenPriceLabel`, dan tombolnya mengarah ke chat.
- *
- * Cukup ubah satu baris di bawah untuk berpindah pola.
- *
- * PENGECUALIAN PER PAKET: `alwaysShowPrice: true`.
- * Paket yang harganya sudah pasti dan enak didengar — kelas trial yang gratis,
- * misalnya — tetap ditampilkan walau showPrices masih false. Menyembunyikan
- * kata "Gratis" di balik "Tanya lewat chat" berarti membuang satu-satunya
- * angka di halaman ini yang tidak perlu dinegosiasikan.
- */
-/**
- * ⚠️  ANGKA HARGA DI BAWAH INI CONTOH — WAJIB DIGANTI SEBELUM GO-LIVE.
+ * ⚠️  SEMUA ANGKA HARGA DI BAWAH INI CONTOH — WAJIB DIGANTI SEBELUM GO-LIVE.
  *
  * Nominalnya ditulis berbentuk wajar supaya tata letaknya bisa diperiksa dengan
  * angka sungguhan, BUKAN karena angkanya benar. Tidak satu pun berasal dari
@@ -468,6 +453,27 @@ export const testimonialsSection = {
  */
 export const PRICES_ARE_PLACEHOLDER = true;
 
+/**
+ * HARGA DIHITUNG, TIDAK DIDAFTAR SATU-SATU.
+ *
+ * Harganya bergantung pada tiga hal sekaligus: jenis kelas, durasi sesi, dan
+ * format. Kalau tiap kombinasi ditulis manual, jumlahnya 4 × 2 × 2 × 2 paket
+ * berbayar = 32 angka yang semuanya harus dijaga tetap konsisten — dan begitu
+ * tarifnya naik sekali saja, tiga puluh dua-duanya harus disunting.
+ *
+ * Jadi yang ditulis cuma HARGA DASAR per jenis kelas (durasi 60 menit, online).
+ * Durasi dan format bekerja sebagai pengali di atasnya. Sepuluh angka, bukan
+ * tiga puluh dua. Ini juga cara tarif les biasanya disusun: 90 menit tidak
+ * dihitung ulang dari nol, tapi sekian persen dari 60 menit.
+ *
+ * CARA MENGUBAH TARIF:
+ *   - Naik/turun untuk satu jenis kelas  -> ubah satu baris di `basePrices`
+ *   - Selisih 90 menit terlalu mahal     -> ubah `multiplier` di axes.durasi
+ *   - Offline tidak jadi lebih mahal     -> set multiplier-nya 1
+ *
+ * Kalau suatu kombinasi ternyata perlu harga khusus yang tidak mengikuti rumus,
+ * tambahkan penanganannya di src/lib/pricing.ts — jangan memaksakan pengali.
+ */
 export const pricing = {
   eyebrow: "Harga",
   hanzi: "学费",
@@ -476,36 +482,78 @@ export const pricing = {
   showPrices: true,
   hiddenPriceLabel: "Tanya lewat chat",
 
-  note: "[PLACEHOLDER: catatan harga — mis. harga berlaku untuk kelas online privat 1-on-1; kelas offline dan kelas berdua dihitung berbeda.]",
+  note: "[PLACEHOLDER: catatan harga — mis. harga sudah termasuk materi; pembayaran per paket di muka.]",
+
+  /**
+   * Tiga sumbu pilihan. Urutannya = urutan tampil di layar, dan yang pertama
+   * dianggap paling penting: itu yang paling mengubah angka.
+   *
+   * `id` pada jenisKelas SENGAJA sama dengan `id` di `programs` di atas,
+   * sehingga kartu kelas dan harga berbicara tentang hal yang sama.
+   */
+  axes: {
+    jenisKelas: {
+      label: "Jenis kelas",
+      options: [
+        { id: "anak", label: "Anak" },
+        { id: "remaja-dewasa", label: "Remaja & Dewasa" },
+        { id: "hsk", label: "Persiapan HSK" },
+        { id: "bisnis", label: "Bisnis" },
+      ],
+    },
+    durasi: {
+      label: "Durasi sesi",
+      options: [
+        { id: "60", label: "60 menit", multiplier: 1 },
+        // 1.4, bukan 1.5 — 90 menit memang lebih lama, tapi persiapan dan
+        // pembukaan kelasnya sama saja, jadi tidak adil menagih 1,5 kali penuh.
+        { id: "90", label: "90 menit", multiplier: 1.4 },
+      ],
+    },
+    format: {
+      label: "Format",
+      options: [
+        { id: "online", label: "Online", multiplier: 1 },
+        // Selisihnya menutup waktu dan ongkos perjalanan.
+        { id: "offline", label: "Offline", multiplier: 1.15 },
+      ],
+    },
+  },
+
+  /**
+   * Harga dasar: durasi 60 menit, format online.
+   * Kunci luar = id jenis kelas, kunci dalam = id paket berbayar.
+   *
+   * Intensif sengaja lebih murah per sesi daripada Reguler — paket besar harus
+   * punya alasan untuk dipilih. Kalau angkanya diganti, jaga hubungan itu.
+   */
+  basePrices: {
+    "anak": { reguler: 1200000, intensif: 2240000 },
+    "remaja-dewasa": { reguler: 1400000, intensif: 2600000 },
+    "hsk": { reguler: 1600000, intensif: 3000000 },
+    "bisnis": { reguler: 1800000, intensif: 3400000 },
+  },
 
   packages: [
     {
       id: "coba",
       name: "Kelas Trial",
       hanzi: "试听",
-      price: "Gratis",
-      unit: "sekali sesi",
-      /** Tetap tampil walau showPrices masih false — lihat catatan di atas. */
-      alwaysShowPrice: true,
+      /** Gratis di semua kombinasi, jadi tidak punya baris di `basePrices`. */
+      free: true,
+      sessions: 1,
       description: "Satu sesi buat ngukur level kamu sekaligus nyobain cara saya ngajar.",
-      features: [
-        "1 sesi × 60 menit",
-        "Cek level awal",
-        "Saran jalur belajar",
-      ],
+      features: ["Cek level awal", "Saran jalur belajar", "Tanpa kewajiban lanjut"],
       highlighted: false,
     },
     {
       id: "reguler",
       name: "Paket Reguler",
       hanzi: "常规",
-      /** ⚠️ CONTOH — ganti tarif sebenarnya, lalu set PRICES_ARE_PLACEHOLDER = false. */
-      price: "Rp 1.200.000",
-      unit: "per 8 sesi",
-      alwaysShowPrice: false,
+      free: false,
+      sessions: 8,
       description: "Paling banyak diambil murid saya buat belajar rutin tiap minggu.",
       features: [
-        "8 sesi × 60 menit",
         "Materi disusun sesuai tujuan kamu",
         "Catatan perkembangan rutin",
         "Bebas nanya di luar jam kelas",
@@ -516,13 +564,10 @@ export const pricing = {
       id: "intensif",
       name: "Paket Intensif",
       hanzi: "强化",
-      /** ⚠️ CONTOH — ganti tarif sebenarnya, lalu set PRICES_ARE_PLACEHOLDER = false. */
-      price: "Rp 2.240.000",
-      unit: "per 16 sesi",
-      alwaysShowPrice: false,
+      free: false,
+      sessions: 16,
       description: "Buat yang lagi ngejar tenggat — ujian HSK atau penempatan kerja, misalnya.",
       features: [
-        "16 sesi × 60 menit",
         "Lebih sering ketemu tiap minggu",
         "Latihan soal & simulasi ujian",
         "Evaluasi target tiap bulan",

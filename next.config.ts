@@ -13,15 +13,27 @@ import type { NextConfig } from "next";
  * Next.js menyisipkan data hidrasi sebagai skrip inline. Menghapusnya butuh
  * nonce per permintaan, yang berarti halaman tidak bisa lagi disajikan sebagai
  * berkas statis — harga yang tidak sepadan untuk website semacam ini.
+ *
+ * `'unsafe-eval'` HANYA DI MODE DEV — JANGAN pernah dibawa ke produksi.
+ * Hot reload Next.js (react-refresh) mengevaluasi kode sebagai string. Tanpa
+ * izin ini, berkasnya gagal dimuat dan React tidak pernah menghidrasi halaman:
+ * seluruh isi tetap terlihat karena sudah dirender server, tapi TIDAK ADA satu
+ * pun tombol yang bereaksi. Gejalanya menyesatkan — halaman tampak sehat, cuma
+ * mati total saat diklik — jadi jangan buang-buang waktu mencurigai komponennya
+ * kalau ini terjadi lagi. Build produksi tidak memakai react-refresh, jadi
+ * kebijakannya di sana tetap ketat.
  */
+const isDev = process.env.NODE_ENV !== "production";
+
 const contentSecurityPolicy = [
   "default-src 'self'",
   // va.vercel-scripts.com = Vercel Analytics & Speed Insights
-  "script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://va.vercel-scripts.com`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self'",
-  "connect-src 'self' https://va.vercel-scripts.com https://vitals.vercel-insights.com",
+  // ws: hanya di dev — saluran hot reload Next.js. Produksi tidak memakainya.
+  `connect-src 'self'${isDev ? " ws:" : ""} https://va.vercel-scripts.com https://vitals.vercel-insights.com`,
   // Semua tombol WhatsApp membuka wa.me di tab baru.
   "form-action 'self'",
   "frame-ancestors 'self'",
