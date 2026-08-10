@@ -56,7 +56,7 @@ export const WHATSAPP_NUMBER_IS_PLACEHOLDER = false;
  * walau tidak ada satu kata pun yang berubah — dan mesin pencari lama-lama
  * berhenti mempercayai tanggalnya.
  */
-export const CONTENT_LAST_UPDATED = "2026-07-25";
+export const CONTENT_LAST_UPDATED = "2026-08-10";
 
 /**
  * Penenang keraguan tepat di samping tombol ajakan.
@@ -136,8 +136,19 @@ export const site = {
   description:
     "Les Mandarin privat di Pontianak untuk anak, remaja, dewasa, HSK, dan " +
     "kebutuhan kerja. Kelas online juga tersedia. Materi disesuaikan sama tujuan kamu.",
-  /** Domain final saat sudah live (untuk metadata & sitemap). */
-  url: "[PLACEHOLDER: https://domain-anda.com]",
+  /**
+   * Alamat final saat sudah live — dipakai metadata, Open Graph, sitemap, dan
+   * JSON-LD.
+   *
+   * Ditulis TANPA garis miring di akhir. `site-url.ts` memang membuangnya
+   * sendiri, tapi menyimpannya sudah bersih membuat nilai di berkas ini sama
+   * persis dengan yang muncul di HTML.
+   *
+   * Kalau nanti pindah ke domain sendiri, ganti di sini — jangan andalkan
+   * alamat bawaan Vercel, karena mesin pencari perlu satu alamat kanonik yang
+   * tidak berubah-ubah.
+   */
+  url: "https://cherlie-lenn.vercel.app",
   /** Kota. Kosongkan ("") kalau kelas 100% online. */
   city: "Pontianak",
   email: "[PLACEHOLDER: email@domain.com]",
