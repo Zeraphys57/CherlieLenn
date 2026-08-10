@@ -501,11 +501,22 @@ export const pricing = {
    * mereka menyimpulkan sendiri bahwa kebutuhannya tidak dilayani, lalu pergi
    * tanpa pernah bertanya.
    *
-   * Sengaja tulisan biasa, bukan tombol. Tombol WhatsApp di navbar sudah
-   * menempel di layar sepanjang halaman, dan bagian ini baru saja dibersihkan
-   * dari tombol supaya kartunya menjawab, bukan meminta.
+   * Tautan teks, bukan tombol. Bagian ini sudah sengaja dibersihkan dari
+   * tombol supaya kartunya menjawab alih-alih meminta — dan orang yang sampai
+   * membaca kalimat ini memang sedang mencari jalan bertanya, jadi tautannya
+   * tidak perlu berteriak untuk ditemukan.
+   *
+   * Kalimatnya dipecah tiga supaya seluruh teksnya tetap di berkas ini, bukan
+   * separuh di sini dan separuh tertanam di dalam komponen.
    */
-  customNote: "Untuk harga atau kebutuhan custom, silakan hubungi langsung.",
+  customNote: {
+    before: "Untuk harga atau kebutuhan custom, silakan ",
+    linkLabel: "hubungi langsung",
+    after: ".",
+    /** Sengaja beda dari pesan lain, supaya ketahuan datang dari bagian Harga. */
+    waMessage:
+      "Halo, kebutuhan saya kayaknya beda dari paket yang ada di website. Boleh tanya-tanya dulu?",
+  },
 
   /**
    * Tiga sumbu pilihan. Urutannya = urutan tampil di layar, dan yang pertama

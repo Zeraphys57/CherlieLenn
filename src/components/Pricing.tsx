@@ -4,6 +4,7 @@ import { useState } from "react";
 import { pricing, trust } from "@/lib/content";
 import { packagePriceLabel, packageUnit } from "@/lib/pricing";
 import SectionHeading from "./SectionHeading";
+import WhatsAppLink from "./WhatsAppLink";
 import Reveal from "./Reveal";
 
 /**
@@ -21,6 +22,11 @@ import Reveal from "./Reveal";
  *
  * Kalau `pricing.showPrices` dimatikan, baris tombolnya ikut hilang — memilih
  * kombinasi jadi tidak ada gunanya kalau angkanya toh disembunyikan.
+ *
+ * KARTUNYA TIDAK PUNYA TOMBOL. Satu-satunya tautan WhatsApp di bagian ini ada
+ * di catatan paling bawah, untuk yang kebutuhannya tidak tertampung paket mana
+ * pun. Bentuknya tautan teks di dalam kalimat, bukan tombol — supaya tidak
+ * menghidupkan kembali ajakan yang baru saja dilepas dari kartunya.
  *
  * ⚠️ Angka harganya masih contoh. Lihat PRICES_ARE_PLACEHOLDER di content.ts.
  */
@@ -156,7 +162,15 @@ export default function Pricing() {
           )}
           <p className="mt-3 max-w-prose text-sm leading-relaxed text-muted">{pricing.note}</p>
           <p className="mt-1.5 max-w-prose text-sm leading-relaxed text-muted">
-            {pricing.customNote}
+            {pricing.customNote.before}
+            <WhatsAppLink
+              message={pricing.customNote.waMessage}
+              source="harga:custom"
+              className="text-ink underline decoration-warm-gray/50 underline-offset-4 transition-colors duration-200 hover:decoration-ink"
+            >
+              {pricing.customNote.linkLabel}
+            </WhatsAppLink>
+            {pricing.customNote.after}
           </p>
         </Reveal>
       </div>
