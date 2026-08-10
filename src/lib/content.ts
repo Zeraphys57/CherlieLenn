@@ -120,6 +120,22 @@ export const site = {
    * soal online/offline supaya ketiganya tidak saling bertentangan.
    */
   tagline: "Guru Les Mandarin Privat di Pontianak — Anak, Dewasa, HSK & Bisnis",
+
+  /**
+   * Teks di bawah judul pada hasil pencarian Google, dan juga dipakai sebagai
+   * keterangan saat link dibagikan di WhatsApp atau Instagram.
+   *
+   * JAGA DI BAWAH ±155 KARAKTER. Lebih dari itu Google memotongnya dengan "…"
+   * di tengah kalimat, dan bagian yang hilang justru yang di belakang — tempat
+   * kalimat penutup biasanya berada. Yang sekarang: 151 karakter.
+   *
+   * Menyebut Pontianak DAN kelas online sekaligus disengaja: kotanya menarik
+   * pencarian lokal, sementara "kelas online" mencegah orang luar Pontianak
+   * menyimpulkan situs ini bukan untuk mereka.
+   */
+  description:
+    "Les Mandarin privat di Pontianak untuk anak, remaja, dewasa, HSK, dan " +
+    "kebutuhan kerja. Kelas online juga tersedia. Materi disesuaikan sama tujuan kamu.",
   /** Domain final saat sudah live (untuk metadata & sitemap). */
   url: "[PLACEHOLDER: https://domain-anda.com]",
   /** Kota. Kosongkan ("") kalau kelas 100% online. */

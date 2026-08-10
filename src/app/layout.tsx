@@ -9,9 +9,11 @@ import PlaceholderNotice from "@/components/PlaceholderNotice";
 import JsonLd from "@/components/JsonLd";
 import "./globals.css";
 
-const description =
-  "Les Mandarin privat untuk anak, remaja, dewasa, persiapan HSK, dan kebutuhan kerja. " +
-  "Materi disusun mengikuti level dan tujuan belajar kamu.";
+// Teksnya sendiri ada di src/lib/content.ts bersama seluruh isi lain — dulu
+// ditulis langsung di berkas ini, dan itu berarti satu-satunya kalimat yang
+// dibaca orang di hasil Google tersembunyi di tempat yang tidak pernah dibuka
+// saat menyunting isi.
+const description = site.description;
 
 const title = `${site.teacherName} — ${site.tagline}`;
 
