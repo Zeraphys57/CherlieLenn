@@ -106,12 +106,24 @@ export const site = {
    * Kosongkan ("") kalau tidak ingin ditampilkan.
    */
   teacherNameHanzi: "吳佩蓉",
-  /** Dipakai di <title> dan hasil pencarian Google. */
-  tagline: "Guru Les Mandarin Privat — Anak, Dewasa, HSK & Bisnis",
+  /**
+   * Dipakai di <title>, hasil pencarian Google, dan footer.
+   *
+   * NAMA KOTANYA SENGAJA ADA DI SINI.
+   * Orang yang mencari les privat hampir selalu mengetik kotanya — "les
+   * mandarin pontianak", bukan "les mandarin". Judul halaman adalah sinyal
+   * terkuat untuk pencarian lokal, jadi kota yang cuma disebut di footer dan
+   * FAQ praktis tidak terbaca mesin pencari sebagai jangkauan layanan.
+   *
+   * Kalau suatu saat kelasnya tidak lagi terikat satu kota, hapus bagian
+   * "di Pontianak" — dan ingat menyesuaikan `site.city` serta jawaban FAQ
+   * soal online/offline supaya ketiganya tidak saling bertentangan.
+   */
+  tagline: "Guru Les Mandarin Privat di Pontianak — Anak, Dewasa, HSK & Bisnis",
   /** Domain final saat sudah live (untuk metadata & sitemap). */
   url: "[PLACEHOLDER: https://domain-anda.com]",
   /** Kota. Kosongkan ("") kalau kelas 100% online. */
-  city: "[PLACEHOLDER: Kota]",
+  city: "Pontianak",
   email: "[PLACEHOLDER: email@domain.com]",
   instagram: "[PLACEHOLDER: https://instagram.com/username]",
 } as const;
@@ -694,14 +706,21 @@ export const faq = {
   headline: "Yang sering ditanyain.",
   items: [
     {
+      /*
+       * Jawaban ini HARUS cocok dengan pilihan Format di bagian Harga.
+       * Kalau di sana ada Online dan Offline tapi di sini ditulis online saja,
+       * pengunjung menemukan situsnya membantah dirinya sendiri — dan berhenti
+       * mempercayai keduanya.
+       */
       question: "Kelasnya online atau offline?",
       answer:
-        "[PLACEHOLDER: jelaskan format yang benar-benar ditawarkan — online saja, atau online dan offline. Kalau ada offline, sebutkan area/kota jangkauannya.]",
+        "Dua-duanya ada. Online lewat video call, jadi kamu bisa ikut dari mana saja. Offline khusus area Pontianak dan sekitarnya — buat yang di luar itu, kelasnya online. Selisih biayanya bisa kamu lihat sendiri di bagian Harga: ganti pilihan Format dari Online ke Offline.",
     },
     {
+      /* Sama seperti di atas: harus cocok dengan pilihan Durasi Sesi di Harga. */
       question: "Satu sesi berapa lama?",
       answer:
-        "[PLACEHOLDER: mis. 60 menit per sesi buat dewasa, 45 menit buat anak-anak.] Frekuensinya nanti nyesuaikan jadwal kamu, biasanya kita tentukan bareng setelah kelas trial.",
+        "Ada dua pilihan: 60 menit atau 90 menit. Yang 90 menit cocok kalau kamu lagi ngejar target ujian atau kebutuhan kerja — lebih banyak waktu buat latihan ngomong. Frekuensinya nanti nyesuaikan jadwal kamu, biasanya kita tentukan bareng setelah kelas trial.",
     },
     {
       question: "Saya belum pernah belajar Mandarin sama sekali, bisa ikut?",
@@ -711,17 +730,24 @@ export const faq = {
     {
       question: "Materinya pakai buku apa?",
       answer:
-        "[PLACEHOLDER: sebutkan buku/materi yang dipakai, mis. HSK Standard Course, Boya Chinese, atau materi susunan sendiri.] Materi tambahannya saya sesuaikan sama tujuan tiap murid.",
+        "Tergantung tujuan kamu. Buat persiapan HSK saya pakai HSK Standard Course, buat kelas reguler biasanya Boya Chinese. Kalau kamu lagi ngejar pelajaran sekolah atau kampus, saya ikut buku yang dipakai di sana. Selebihnya materinya saya susun sendiri — bukunya jadi kerangka, bukan sesuatu yang harus dihabiskan.",
     },
     {
+      /*
+       * Menjembatani harga per paket dengan pembayaran per bulan.
+       * Angka di bagian Harga tertulis "per 8 sesi", jadi tanpa kalimat
+       * penghubung pengunjung wajar mengira harus membayar sekaligus di muka —
+       * dan angka jutaan yang terbaca sebagai tagihan sekali bayar menakutkan
+       * orang lebih dari perlunya.
+       */
       question: "Bayarnya gimana?",
       answer:
-        "[PLACEHOLDER: jelaskan metode pembayaran — transfer bank / e-wallet, dibayar di muka per paket atau per bulan.]",
+        "Transfer bank atau e-wallet, dibayar per bulan — nggak perlu sekaligus di depan buat satu paket penuh. Jadi angka di bagian Harga itu total biaya paketnya, dan pembagiannya kita atur sesuai berapa sesi yang jalan tiap bulan.",
     },
     {
       question: "Kalau saya berhalangan, bisa reschedule?",
       answer:
-        "[PLACEHOLDER: jelaskan aturan reschedule — mis. bisa dijadwal ulang kalau ngabarin minimal X jam sebelum kelas, maksimal X kali per paket.]",
+        "Bisa. Kabari aja sebisanya sebelum kelas, nanti kita cari slot pengganti — saya ngerti kerjaan dan sekolah kadang nggak bisa ditebak. Yang penting jangan hilang tanpa kabar, karena jamnya sudah saya kosongkan buat kamu.",
     },
   ],
 } as const;
