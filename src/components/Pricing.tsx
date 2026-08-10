@@ -1,8 +1,5 @@
 import { pricing, trust } from "@/lib/content";
 import SectionHeading from "./SectionHeading";
-import WhatsAppIcon from "./WhatsAppIcon";
-import WhatsAppLink from "./WhatsAppLink";
-import Arrow from "./Arrow";
 import Reveal from "./Reveal";
 
 /**
@@ -10,16 +7,19 @@ import Reveal from "./Reveal";
  *
  * Mendukung dua pola sekaligus, diatur oleh SATU baris di src/lib/content.ts:
  *
- *   pricing.showPrices = false  ->  harga disembunyikan, diganti
- *                                   "Hubungi untuk harga" (keadaan sekarang)
  *   pricing.showPrices = true   ->  angka di field `price` ditampilkan terbuka
+ *                                   (keadaan sekarang)
+ *   pricing.showPrices = false  ->  harga disembunyikan, diganti
+ *                                   `hiddenPriceLabel`
  *
  * Tata letaknya tidak berubah di antara keduanya — hanya isi baris harganya.
  * Jadi guru bisa berpindah pola kapan saja tanpa perlu ada yang mengubah kode.
  *
- * Semua angka harga saat ini masih "[PLACEHOLDER: Rp ___]". Selama
- * showPrices masih false, angka itu tidak terlihat pengunjung — tapi tetap
- * WAJIB diisi sebelum pernah menyalakan showPrices.
+ * KARTUNYA TIDAK PUNYA TOMBOL. Begitu harganya terbuka, bagian ini menjawab
+ * pertanyaan alih-alih meminta sesuatu — aksinya dipegang ajakan penutup
+ * setelah FAQ. Alasan lengkapnya ada di `pricing` (src/lib/content.ts).
+ *
+ * ⚠️ Angka harganya masih contoh. Lihat PRICES_ARE_PLACEHOLDER di content.ts.
  */
 export default function Pricing() {
   return (
@@ -77,40 +77,6 @@ export default function Pricing() {
                 ))}
               </ul>
 
-              {/*
-                HANYA PAKET UNGGULAN YANG MEMAKAI TOMBOL ISI.
-                Dua paket lain turun jadi tautan teks. Pilihannya tetap
-                terbuka — tapi tiga tombol sejajar dengan bobot yang sama
-                membuat mata tidak punya pegangan, dan satu-satunya cara
-                menyarankan sesuatu adalah dengan menahan yang lain.
-
-                Pembungkus mt-auto pt-8 menjaga tombol rata bawah walau isi
-                kartunya berbeda panjang, tanpa menempelkan padding besar ke
-                badan tombolnya sendiri.
-              */}
-              <div className="mt-auto pt-8">
-                <WhatsAppLink
-                  message={pkg.waMessage}
-                  source={`harga:${pkg.id}`}
-                  className={
-                    pkg.highlighted
-                      ? "inline-flex items-center justify-center gap-2.5 rounded-full bg-seal px-6 py-3.5 text-sm font-medium text-paper transition-opacity duration-200 hover:opacity-90"
-                      : "group inline-flex items-center gap-2 text-sm font-medium text-seal transition-opacity duration-200 hover:opacity-75"
-                  }
-                >
-                  {pkg.highlighted ? (
-                    <>
-                      <WhatsAppIcon className="h-4 w-4" />
-                      {pkg.ctaLabel}
-                    </>
-                  ) : (
-                    <>
-                      {pkg.ctaLabel}
-                      <Arrow className="transition-transform duration-200 group-hover:translate-x-1" />
-                    </>
-                  )}
-                </WhatsAppLink>
-              </div>
             </article>
           ))}
         </Reveal>

@@ -1,4 +1,9 @@
-import { hero, WHATSAPP_NUMBER, WHATSAPP_NUMBER_IS_PLACEHOLDER } from "@/lib/content";
+import {
+  hero,
+  PRICES_ARE_PLACEHOLDER,
+  WHATSAPP_NUMBER,
+  WHATSAPP_NUMBER_IS_PLACEHOLDER,
+} from "@/lib/content";
 import { siteUrlIsPlaceholder } from "@/lib/site-url";
 import { findPlaceholders } from "@/lib/placeholders";
 
@@ -16,15 +21,19 @@ export default function PlaceholderNotice() {
   if (process.env.NODE_ENV === "production") return null;
 
   const hits = findPlaceholders();
-  // Skrip `npm run placeholder:photo` selalu menulis ke guru.jpg. Jadi selama
-  // hero masih menunjuk ke berkas itu, fotonya belum diganti yang asli.
-  //
-  // `hero` memakai `as const`, sehingga hero.photo bertipe literal — tanpa
-  // pelebaran ke string, TypeScript menolak perbandingannya sebagai mustahil.
-  const photoIsPlaceholder = (hero.photo as string) === "/images/guru.jpg";
+
+  // Dibaca dari penanda tegas di content.ts, bukan ditebak dari nama berkas.
+  // Tebakan lamanya membandingkan hero.photo dengan "/images/guru.jpg" — dan
+  // karena situsnya sejak awal menunjuk ke .png, syarat itu tidak pernah
+  // terpenuhi: peringatannya diam-diam tidak pernah muncul sekali pun.
+  const photoIsPlaceholder = hero.photoIsPlaceholder;
 
   const outstanding =
-    hits.length + (WHATSAPP_NUMBER_IS_PLACEHOLDER ? 1 : 0) + (siteUrlIsPlaceholder ? 1 : 0);
+    hits.length +
+    (WHATSAPP_NUMBER_IS_PLACEHOLDER ? 1 : 0) +
+    (siteUrlIsPlaceholder ? 1 : 0) +
+    (photoIsPlaceholder ? 1 : 0) +
+    (PRICES_ARE_PLACEHOLDER ? 1 : 0);
 
   if (outstanding === 0) return null;
 
@@ -61,12 +70,23 @@ export default function PlaceholderNotice() {
           </p>
         )}
 
+        {PRICES_ARE_PLACEHOLDER && (
+          <p className="text-ink">
+            <strong className="block">Harga paket masih angka contoh</strong>
+            <span className="text-muted">
+              Nominal di <code className="font-mono">pricing.packages</code> bukan tarif asli dan
+              sekarang TERLIHAT pengunjung. Ganti, lalu set{" "}
+              <code className="font-mono">PRICES_ARE_PLACEHOLDER = false</code>.
+            </span>
+          </p>
+        )}
+
         {photoIsPlaceholder && (
           <p className="text-ink">
             <strong className="block">Foto guru masih gambar sementara</strong>
             <span className="text-muted">
-              Timpa <code className="font-mono">public/images/guru.jpg</code> dengan foto asli
-              (potret 4:5).
+              Timpa <code className="font-mono">public/images/guru.png</code> dengan foto asli
+              (potret 4:5), lalu set <code className="font-mono">hero.photoIsPlaceholder = false</code>.
             </span>
           </p>
         )}

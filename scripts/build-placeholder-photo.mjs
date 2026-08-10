@@ -1,18 +1,23 @@
 /**
  * build-placeholder-photo.mjs
  * ----------------------------------------------------------------------------
- * Membuat foto sementara di public/images/guru.jpg supaya tata letak hero bisa
+ * Membuat foto sementara di public/images/guru.png supaya tata letak hero bisa
  * dikerjakan dan diperiksa sebelum foto asli tersedia.
  *
  * Gambarnya sengaja dibuat jelas-jelas sebagai penanda kosong: memakai warna
  * kertas dari palet, bergaris 米字格, dan bertuliskan "FOTO GURU". Tidak
  * mungkin tertukar dengan foto sungguhan kalau sampai lupa diganti.
  *
+ * NAMA BERKASNYA HARUS SAMA DENGAN `hero.photo` DI src/lib/content.ts.
+ * Sempat tidak sama — skrip ini menulis .jpg sementara situsnya membaca .png —
+ * dan akibatnya skrip terlihat berhasil tapi tidak mengubah apa pun di layar.
+ * Kalau `hero.photo` diganti, ganti juga OUT_NAME di bawah.
+ *
  * CARA PAKAI:
  *   npm run placeholder:photo
  *
  * MENGGANTI DENGAN FOTO ASLI:
- *   Timpa saja public/images/guru.jpg dengan foto aslinya — rasio potret 4:5,
+ *   Timpa saja public/images/guru.png dengan foto aslinya — rasio potret 4:5,
  *   minimal 800×1000px. Tidak ada kode yang perlu diubah.
  */
 
@@ -26,6 +31,9 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 const WIDTH = 800;
 const HEIGHT = 1000;
+
+/** Harus cocok dengan `hero.photo` di src/lib/content.ts. */
+const OUT_NAME = "guru.png";
 
 // Warna diambil dari palet di src/app/globals.css.
 const PAPER_MID = "#E3DCC9";
@@ -70,11 +78,17 @@ async function main() {
   const outDir = path.join(ROOT, "public", "images");
   await mkdir(outDir, { recursive: true });
 
-  const jpeg = await sharp(Buffer.from(svg)).jpeg({ quality: 86 }).toBuffer();
-  const outFile = path.join(outDir, "guru.jpg");
-  await writeFile(outFile, jpeg);
+  // PNG berpalet, bukan JPEG. Gambarnya cuma bidang warna rata, garis, dan
+  // teks — persis kasus yang ditangani PNG jauh lebih baik: tidak ada dengung
+  // di sekitar huruf, dan berkasnya justru lebih kecil. `palette: true`
+  // menguncinya ke ≤256 warna, yang untuk gambar ini tidak terlihat bedanya.
+  const png = await sharp(Buffer.from(svg))
+    .png({ palette: true, compressionLevel: 9 })
+    .toBuffer();
+  const outFile = path.join(outDir, OUT_NAME);
+  await writeFile(outFile, png);
 
-  console.log(`  ✓ public/images/guru.jpg  ${WIDTH}×${HEIGHT}  ${(jpeg.length / 1024).toFixed(1)} KB`);
+  console.log(`  ✓ public/images/${OUT_NAME}  ${WIDTH}×${HEIGHT}  ${(png.length / 1024).toFixed(1)} KB`);
   console.log("\nIni gambar sementara. Timpa dengan foto asli (potret 4:5) sebelum go-live.");
 }
 

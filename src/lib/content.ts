@@ -155,6 +155,15 @@ export const hero = {
   /** Foto utama guru. WAJIB ada — ini wajah dari seluruh website. */
   photo: "/images/guru.png",
   photoAlt: "Cherlie Lenn, guru les Mandarin privat",
+  /**
+   * Set `false` setelah `photo` di atas diganti foto guru yang sebenarnya.
+   *
+   * Dulu status ini ditebak dari nama berkasnya (".jpg" berarti masih buatan
+   * skrip). Cara itu berhenti bekerja begitu skrip placeholder ikut menulis
+   * .png — nama berkas yang sama tidak bisa lagi membedakan gambar sementara
+   * dari foto asli. Jadi penandanya ditulis terang-terangan di sini.
+   */
+  photoIsPlaceholder: true,
 
   ctaLabel: "Chat soal kelas trial",
   /*
@@ -445,12 +454,26 @@ export const testimonialsSection = {
  * kata "Gratis" di balik "Tanya lewat chat" berarti membuang satu-satunya
  * angka di halaman ini yang tidak perlu dinegosiasikan.
  */
+/**
+ * ⚠️  ANGKA HARGA DI BAWAH INI CONTOH — WAJIB DIGANTI SEBELUM GO-LIVE.
+ *
+ * Nominalnya ditulis berbentuk wajar supaya tata letaknya bisa diperiksa dengan
+ * angka sungguhan, BUKAN karena angkanya benar. Tidak satu pun berasal dari
+ * tarif nyata.
+ *
+ * Sakelar ini ada karena angka yang terlihat masuk akal tidak lagi tertangkap
+ * pemeriksa "[PLACEHOLDER: ...]" — dan harga yang salah justru jenis kesalahan
+ * yang paling mahal kalau lolos ke publik. Set `false` HANYA setelah seluruh
+ * harga diganti tarif yang sebenarnya.
+ */
+export const PRICES_ARE_PLACEHOLDER = true;
+
 export const pricing = {
   eyebrow: "Harga",
   hanzi: "学费",
   headline: "Pilih paket yang pas sama ritme belajarmu.",
 
-  showPrices: false,
+  showPrices: true,
   hiddenPriceLabel: "Tanya lewat chat",
 
   note: "[PLACEHOLDER: catatan harga — mis. harga berlaku untuk kelas online privat 1-on-1; kelas offline dan kelas berdua dihitung berbeda.]",
@@ -466,56 +489,67 @@ export const pricing = {
       alwaysShowPrice: true,
       description: "Satu sesi buat ngukur level kamu sekaligus nyobain cara saya ngajar.",
       features: [
-        "[PLACEHOLDER: durasi sesi, mis. 60 menit]",
+        "1 sesi × 60 menit",
         "Cek level awal",
         "Saran jalur belajar",
       ],
       highlighted: false,
-      ctaLabel: "Ambil kelas trial",
-      waMessage:
-        "Halo, saya mau ambil kelas trial Mandarin. Boleh dibantu info jadwal yang masih kosong?",
     },
     {
       id: "reguler",
       name: "Paket Reguler",
       hanzi: "常规",
-      /** Ditampilkan hanya jika showPrices === true */
-      price: "[PLACEHOLDER: Rp ___]",
-      unit: "[PLACEHOLDER: per 8 sesi]",
+      /** ⚠️ CONTOH — ganti tarif sebenarnya, lalu set PRICES_ARE_PLACEHOLDER = false. */
+      price: "Rp 1.200.000",
+      unit: "per 8 sesi",
       alwaysShowPrice: false,
       description: "Paling banyak diambil murid saya buat belajar rutin tiap minggu.",
       features: [
-        "[PLACEHOLDER: jumlah & durasi sesi]",
+        "8 sesi × 60 menit",
         "Materi disusun sesuai tujuan kamu",
         "Catatan perkembangan rutin",
         "Bebas nanya di luar jam kelas",
       ],
       highlighted: true,
-      ctaLabel: "Tanya paket reguler",
-      waMessage:
-        "Halo, saya mau tanya detail Paket Reguler les Mandarin — jumlah sesi, jadwal, dan biayanya. Terima kasih!",
     },
     {
       id: "intensif",
       name: "Paket Intensif",
       hanzi: "强化",
-      /** Ditampilkan hanya jika showPrices === true */
-      price: "[PLACEHOLDER: Rp ___]",
-      unit: "[PLACEHOLDER: per 16 sesi]",
+      /** ⚠️ CONTOH — ganti tarif sebenarnya, lalu set PRICES_ARE_PLACEHOLDER = false. */
+      price: "Rp 2.240.000",
+      unit: "per 16 sesi",
       alwaysShowPrice: false,
       description: "Buat yang lagi ngejar tenggat — ujian HSK atau penempatan kerja, misalnya.",
       features: [
-        "[PLACEHOLDER: jumlah & durasi sesi]",
+        "16 sesi × 60 menit",
         "Lebih sering ketemu tiap minggu",
         "Latihan soal & simulasi ujian",
         "Evaluasi target tiap bulan",
       ],
       highlighted: false,
-      ctaLabel: "Tanya paket intensif",
-      waMessage:
-        "Halo, saya mau tanya detail Paket Intensif les Mandarin. Target saya ___ dengan tenggat sekitar ___. Boleh minta info biayanya?",
     },
   ],
+
+  /*
+   * SENGAJA TANPA TOMBOL DI KARTU MANA PUN.
+   *
+   * Sekarang harganya terbuka, jadi kartu-kartu ini tugasnya menjawab, bukan
+   * meminta. Ajakan penutup setelah FAQ yang memegang aksinya — di situ
+   * pengunjung sudah membaca harga, cara belajar, dan jawaban keraguannya.
+   *
+   * Teks tombol lamanya, kalau suatu saat mau dipasang lagi:
+   *   coba:     "Ambil kelas trial"    — "Halo, saya mau ambil kelas trial
+   *                                      Mandarin. Boleh dibantu info jadwal
+   *                                      yang masih kosong?"
+   *   reguler:  "Tanya paket reguler"  — "Halo, saya mau tanya detail Paket
+   *                                      Reguler les Mandarin — jumlah sesi,
+   *                                      jadwal, dan biayanya. Terima kasih!"
+   *   intensif: "Tanya paket intensif" — "Halo, saya mau tanya detail Paket
+   *                                      Intensif les Mandarin. Target saya ___
+   *                                      dengan tenggat sekitar ___. Boleh minta
+   *                                      info biayanya?"
+   */
 } as const;
 
 /* -------------------------------------------------------------------------- */
