@@ -36,7 +36,6 @@
  *   +62 812 3456 7890 ->  "6281234567890"   ✅
  *   "081234567890"    ->  SALAH ❌ (wa.me tidak akan bekerja)
  */
-// [PLACEHOLDER: nomor WhatsApp bisnis yang aktif]
 export const WHATSAPP_NUMBER = "+6281253587353";
 
 /**
@@ -44,7 +43,7 @@ export const WHATSAPP_NUMBER = "+6281253587353";
  * Selama masih `true`, akan muncul peringatan di layar saat mode development
  * supaya nomor palsu tidak ikut terpublikasi tanpa sengaja.
  */
-export const WHATSAPP_NUMBER_IS_PLACEHOLDER = true;
+export const WHATSAPP_NUMBER_IS_PLACEHOLDER = false;
 
 /**
  * Tanggal isi website terakhir diubah, format YYYY-MM-DD.
