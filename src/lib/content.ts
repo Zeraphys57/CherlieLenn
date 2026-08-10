@@ -481,7 +481,17 @@ export const pricing = {
   showPrices: true,
   hiddenPriceLabel: "Tanya lewat chat",
 
-  note: "[PLACEHOLDER: catatan harga — mis. harga sudah termasuk materi; pembayaran per paket di muka.]",
+  /*
+   * Sengaja hanya menyatakan hal yang sudah benar menurut isi situs ini
+   * (hero menyebut kelas privat), supaya tidak ada janji baru yang belum tentu
+   * bisa ditepati.
+   *
+   * Yang pantas ditambahkan di sini kalau ketentuannya sudah pasti: apakah
+   * materi sudah termasuk, cara dan waktu pembayaran, serta aturan penjadwalan
+   * ulang. Ketiganya pertanyaan yang paling sering muncul setelah orang melihat
+   * angka — dijawab di sini, tidak perlu ditanyakan lewat chat.
+   */
+  note: "Harga berlaku untuk kelas privat 1-on-1.",
 
   /**
    * Tiga sumbu pilihan. Urutannya = urutan tampil di layar, dan yang pertama
