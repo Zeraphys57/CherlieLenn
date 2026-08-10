@@ -8,17 +8,23 @@
  * kertas dari palet, bergaris 米字格, dan bertuliskan "FOTO GURU". Tidak
  * mungkin tertukar dengan foto sungguhan kalau sampai lupa diganti.
  *
- * NAMA BERKASNYA HARUS SAMA DENGAN `hero.photo` DI src/lib/content.ts.
- * Sempat tidak sama — skrip ini menulis .jpg sementara situsnya membaca .png —
- * dan akibatnya skrip terlihat berhasil tapi tidak mengubah apa pun di layar.
- * Kalau `hero.photo` diganti, ganti juga OUT_NAME di bawah.
+ * FOTO ASLINYA SUDAH TERPASANG, jadi skrip ini sekarang menganggur.
+ * `hero.photo` menunjuk ke berkas lain (lihat src/lib/content.ts), dan itu
+ * disengaja: selama namanya berbeda, menjalankan skrip ini tidak mungkin
+ * menimpa foto guru yang sebenarnya. Berkas yang dihasilkannya hanya terpakai
+ * kalau `hero.photo` sengaja diarahkan balik ke sini.
+ *
+ * Dulu keduanya nyaris bertabrakan dengan cara lain: skrip menulis .jpg
+ * sementara situsnya membaca .png, sehingga skrip terlihat berhasil tapi tidak
+ * mengubah apa pun di layar. Kalau nanti OUT_NAME diubah, pastikan tetap TIDAK
+ * sama dengan `hero.photo`.
  *
  * CARA PAKAI:
  *   npm run placeholder:photo
  *
- * MENGGANTI DENGAN FOTO ASLI:
- *   Timpa saja public/images/guru.png dengan foto aslinya — rasio potret 4:5,
- *   minimal 800×1000px. Tidak ada kode yang perlu diubah.
+ * MENGGANTI FOTO GURU:
+ *   Timpa berkas yang ditunjuk `hero.photo` — rasio potret, minimal
+ *   800×1000px. Tidak ada kode yang perlu diubah.
  */
 
 import { mkdir, writeFile } from "node:fs/promises";

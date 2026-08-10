@@ -85,8 +85,9 @@ export default function PlaceholderNotice() {
           <p className="text-ink">
             <strong className="block">Foto guru masih gambar sementara</strong>
             <span className="text-muted">
-              Timpa <code className="font-mono">public/images/guru.png</code> dengan foto asli
-              (potret 4:5), lalu set <code className="font-mono">hero.photoIsPlaceholder = false</code>.
+              Timpa berkas yang ditunjuk <code className="font-mono">hero.photo</code> dengan foto
+              asli (potret), lalu set{" "}
+              <code className="font-mono">hero.photoIsPlaceholder = false</code>.
             </span>
           </p>
         )}

@@ -151,8 +151,14 @@ export const hero = {
     "Kelas privat buat anak, remaja, dewasa, persiapan HSK, sampai kebutuhan kerja. " +
     "Materinya saya sesuaikan sama level dan tujuan kamu — bukan ngejar buku sampai habis.",
 
-  /** Foto utama guru. WAJIB ada — ini wajah dari seluruh website. */
-  photo: "/images/guru.png",
+  /**
+   * Foto utama guru. WAJIB ada — ini wajah dari seluruh website.
+   *
+   * Namanya sengaja BUKAN "guru.png", yaitu berkas yang ditulis
+   * `npm run placeholder:photo`. Kalau keduanya senama, sekali salah
+   * menjalankan skrip itu foto aslinya tertimpa gambar sementara.
+   */
+  photo: "/images/cherlie.jpeg",
   photoAlt: "Cherlie Lenn, guru les Mandarin privat",
   /**
    * Set `false` setelah `photo` di atas diganti foto guru yang sebenarnya.
@@ -162,7 +168,7 @@ export const hero = {
    * .png — nama berkas yang sama tidak bisa lagi membedakan gambar sementara
    * dari foto asli. Jadi penandanya ditulis terang-terangan di sini.
    */
-  photoIsPlaceholder: true,
+  photoIsPlaceholder: false,
 
   ctaLabel: "Chat soal kelas trial",
   /*
