@@ -1,26 +1,224 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   DESIGN TOKENS
+   --------------------------------------------------------------------------
+   Blok @theme milik Tailwind v4 melakukan dua hal sekaligus:
+     1. memancarkan setiap token sebagai CSS variable di :root
+     2. membuat utility class yang sepadan (bg-paper, text-ink, font-display…)
+
+   Warna diambil dari dunia nyata belajar Hanzi: tinta yang digerus, kertas
+   beras, dan cap stempel — bukan palet merah-emas "restoran Cina".
+   ========================================================================== */
+
+@theme {
+  /* -- Warna ------------------------------------------------------------- */
+  --color-ink: #211e1a; /* teks utama — hitam kehangatan, seperti batang tinta */
+  --color-paper: #efe8da; /* latar utama — kertas beras hangat */
+  --color-paper-mid: #e3dcc9; /* latar kartu/seksi, satu tingkat lebih gelap */
+  --color-seal: #a63b2a; /* cinnabar bata teredam — HANYA aksen kecil (CTA, cap) */
+  --color-jade: #4b6353; /* celadon teredam — label kategori & tag program */
+  --color-warm-gray: #8a8271; /* HANYA garis, pembatas, dan grid hiasan */
+  --color-muted: #676055; /* teks sekunder — versi --warm-gray yang lolos AA */
+
+  /* -- Tipografi --------------------------------------------------------- */
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-body: var(--font-inter), system-ui, "Segoe UI", Arial, sans-serif;
+  --font-hanzi-display: var(--font-noto-serif-sc), "Songti SC", SimSun, serif;
+  --font-hanzi: var(--font-noto-sans-sc), "PingFang SC", "Microsoft YaHei", sans-serif;
+
+  /* -- Gerak ------------------------------------------------------------- */
+  /* Easing tunggal yang dipakai konsisten: tenang, tanpa pantulan. */
+  --ease-quiet: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* --------------------------------------------------------------------------
+   CATATAN KONTRAS — kenapa dua token menyimpang dari brief desain
+   --------------------------------------------------------------------------
+   Brief meminta dua hal yang ternyata saling bertabrakan: nilai warna yang
+   pasti, DAN kontras WCAG AA. Setelah diukur, dua warna aslinya tidak lolos
+   untuk teks berukuran normal (butuh 4.5:1):
+
+     --jade      #56705F  ->  4.44:1 di paper, 3.96:1 di paper-mid   GAGAL
+     --warm-gray #8A8271  ->  3.12:1 di paper, 2.78:1 di paper-mid   GAGAL
+
+   Padahal keduanya justru ditugaskan brief untuk teks: jade untuk label
+   kategori, warm-gray untuk teks sekunder.
+
+   Penyelesaiannya:
+
+     --jade digelapkan ke #4B6353 (5.37:1 / 4.78:1). Ini pergeseran terkecil
+     yang masih lolos di kedua latar; nuansa celadon teredamnya tidak berubah.
+
+     --warm-gray DIPERTAHANKAN persis seperti brief, tapi pemakaiannya
+     dipersempit hanya untuk garis, pembatas, dan grid hiasan — yang memang
+     tidak terikat aturan kontras. Untuk teks sekunder dipakai --muted
+     (#676055, 5.09:1 / 4.54:1), yaitu warna yang sama nadanya, hanya lebih
+     gelap.
+
+   Singkatnya: jangan pakai text-warm-gray untuk teks. Pakai text-muted.
+   -------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------
+   Alias token sesuai penamaan di brief desain (--ink, --paper, dst).
+   Nilainya sama persis, hanya nama pendek untuk dipakai di CSS custom.
+   -------------------------------------------------------------------------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ink: var(--color-ink);
+  --paper: var(--color-paper);
+  --paper-mid: var(--color-paper-mid);
+  --seal: var(--color-seal);
+  --jade: var(--color-jade);
+  --warm-gray: var(--color-warm-gray);
+  --muted: var(--color-muted);
+
+  /* Tinggi navbar sticky — dipakai untuk offset scroll anchor. */
+  --nav-height: 4.5rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ==========================================================================
+   DASAR
+   ========================================================================== */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  /* Lenis menangani smooth scroll; jangan sampai bentrok dengan versi native. */
+  scroll-behavior: auto;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Anchor tidak tersembunyi di balik navbar sticky. */
+[id] {
+  scroll-margin-top: calc(var(--nav-height) + 1.5rem);
+}
+
+/* Hanzi punya tinggi visual berbeda dari latin — beri kelas sendiri agar
+   pengaturannya tidak bocor ke teks Indonesia. */
+.hanzi {
+  font-family: var(--font-hanzi);
+  font-feature-settings: normal;
+}
+
+.hanzi-display {
+  font-family: var(--font-hanzi-display);
+}
+
+/* Pinyin — tanda nada (ā ǎ ǐ ǒ ǔ ǚ) diambil dari berkas Inter mungil berisi
+   tepat enam huruf itu, sisanya dari Inter biasa. Browser memilih per karakter,
+   dan karena keduanya Inter, sambungannya tidak terlihat.
+   Lihat src/lib/fonts.ts untuk alasan lengkapnya. */
+.pinyin {
+  font-family: var(--font-inter-ext), var(--font-body);
+}
+
+/* ==========================================================================
+   AKORDEON FAQ
+   --------------------------------------------------------------------------
+   Dibangun di atas <details>/<summary> bawaan HTML, jadi yang perlu diatur di
+   sini hanya tampilannya — perilaku buka-tutup, keyboard, dan pembacaan status
+   oleh pembaca layar sudah ditangani browser.
+   ========================================================================== */
+
+/* Hilangkan segitiga bawaan browser; penandanya digambar sendiri. */
+.faq-item > summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item > summary::marker {
+  content: "";
+}
+
+/* Garis tegak pada tanda tambah menghilang saat jawaban terbuka,
+   menyisakan garis mendatar — tanda tambah berubah jadi tanda kurang. */
+.faq-plus {
+  transition: transform 250ms var(--ease-quiet), opacity 250ms var(--ease-quiet);
+}
+
+.faq-item[open] .faq-plus {
+  transform: rotate(90deg);
+  opacity: 0;
+}
+
+/* Jawaban masuk dengan lembut saat dibuka. Blok prefers-reduced-motion di
+   bawah otomatis memangkas durasinya jadi nyaris nol. */
+@keyframes faq-answer-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.faq-item[open] .faq-answer {
+  animation: faq-answer-in 260ms var(--ease-quiet);
+}
+
+/* ==========================================================================
+   AKSESIBILITAS
+   ========================================================================== */
+
+/* Fokus keyboard harus terlihat jelas di semua latar terang milik palet ini. */
+:focus-visible {
+  outline: 2px solid var(--color-seal);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Hanya sembunyikan outline saat fokus datang dari klik mouse. */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Link "lewati ke konten" — tersembunyi sampai difokuskan dengan Tab. */
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  transform: translateY(-120%);
+  transition: transform 150ms var(--ease-quiet);
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   PREFERENSI GERAK
+   --------------------------------------------------------------------------
+   Semua animasi (termasuk goresan 你好 di hero) wajib menghormati ini.
+   Komponen JS membaca preferensi yang sama lewat matchMedia.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
