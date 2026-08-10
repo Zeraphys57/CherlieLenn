@@ -493,6 +493,20 @@ export const pricing = {
    */
   note: "Harga berlaku untuk kelas privat 1-on-1.",
 
+  /*
+   * Pintu keluar untuk yang tidak cocok dengan satu pun kartu di atas.
+   *
+   * Daftar harga apa pun pasti meninggalkan sebagian orang: jadwal yang aneh,
+   * jumlah sesi di antara dua paket, dua anak sekaligus. Tanpa kalimat ini
+   * mereka menyimpulkan sendiri bahwa kebutuhannya tidak dilayani, lalu pergi
+   * tanpa pernah bertanya.
+   *
+   * Sengaja tulisan biasa, bukan tombol. Tombol WhatsApp di navbar sudah
+   * menempel di layar sepanjang halaman, dan bagian ini baru saja dibersihkan
+   * dari tombol supaya kartunya menjawab, bukan meminta.
+   */
+  customNote: "Untuk harga atau kebutuhan custom, silakan hubungi langsung.",
+
   /**
    * Tiga sumbu pilihan. Urutannya = urutan tampil di layar, dan yang pertama
    * dianggap paling penting: itu yang paling mengubah angka.

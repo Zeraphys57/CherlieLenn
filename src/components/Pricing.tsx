@@ -155,6 +155,9 @@ export default function Pricing() {
             </p>
           )}
           <p className="mt-3 max-w-prose text-sm leading-relaxed text-muted">{pricing.note}</p>
+          <p className="mt-1.5 max-w-prose text-sm leading-relaxed text-muted">
+            {pricing.customNote}
+          </p>
         </Reveal>
       </div>
     </section>
