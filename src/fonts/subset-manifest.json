@@ -1,47 +1,47 @@
 {
   "generatedBy": "scripts/build-cjk-subset.mjs",
-  "latinExtCharacters": "āǎǐǒǔǚ",
-  "characters": "·、。〇「」一七三中九二于五人价你佩儿八六关务化十印听吳吴商四好始字学师常开强成文格汉流生程章童答米老考蓉规评试语课费路迷问！（），：；？",
-  "characterCount": 69,
+  "latinExtCharacters": "āēǎǐǒǔǚ",
+  "characters": "·、。〇「」一七三中九二于五人价你佩儿八六关务化十印听吳吴商四好始字学师常年开强成文格汉流生程章童答米老考蓉规评试语课费路迷问！（），：；？",
+  "characterCount": 70,
   "files": [
     {
       "family": "Noto Serif SC",
       "weight": 400,
       "charset": "cjk",
       "filename": "NotoSerifSC-subset-400.woff2",
-      "bytes": 24128
+      "bytes": 24292
     },
     {
       "family": "Noto Serif SC",
       "weight": 600,
       "filename": "NotoSerifSC-subset-400.woff2",
-      "bytes": 24128
+      "bytes": 24292
     },
     {
       "family": "Noto Sans SC",
       "weight": 400,
       "charset": "cjk",
       "filename": "NotoSansSC-subset-400.woff2",
-      "bytes": 19248
+      "bytes": 18648
     },
     {
       "family": "Noto Sans SC",
       "weight": 500,
       "filename": "NotoSansSC-subset-400.woff2",
-      "bytes": 19248
+      "bytes": 18648
     },
     {
       "family": "Inter",
       "weight": 400,
       "charset": "latinExt",
       "filename": "Inter-latin-ext-subset-400.woff2",
-      "bytes": 4176
+      "bytes": 4432
     },
     {
       "family": "Inter",
       "weight": 500,
       "filename": "Inter-latin-ext-subset-400.woff2",
-      "bytes": 4176
+      "bytes": 4432
     }
   ]
 }

@@ -11,6 +11,19 @@ import Footer from "@/components/Footer";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 
 /**
+ * Dibangun ulang paling lambat sekali sehari.
+ *
+ * Angka "X tahun mengajar" di bagian Cerita Saya dihitung dari tahun berjalan
+ * (lihat src/lib/experience.ts). Tanpa baris ini, halaman dibekukan saat
+ * di-deploy dan angkanya tidak akan pernah berubah sendiri — pergantian tahun
+ * baru terlihat kalau kebetulan ada yang men-deploy lagi.
+ *
+ * Sehari sekali sudah lebih dari cukup untuk angka yang berubah setahun sekali,
+ * dan halamannya tetap dilayani dari cache, jadi pengunjung tidak menunggu.
+ */
+export const revalidate = 86400;
+
+/**
  * Halaman utama.
  *
  * Urutannya mengikuti lib/content.ts. Yang masih menyusul di Fase 4: Footer

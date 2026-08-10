@@ -208,13 +208,60 @@ export const story = {
   photo: null as string | null, // [OPSIONAL: foto kedua, mis. suasana kelas]
   photoAlt: "",
 
-  /** Kredensial. WAJIB diisi data asli — jangan mengarang. */
+  /**
+   * Tahun mulai mengajar. Angka pengalaman DIHITUNG dari sini, bukan ditulis.
+   *
+   * Angka yang ditulis tangan pasti basi: "3 tahun mengajar" tetap berbunyi 3
+   * tahun sampai ada yang ingat menyuntingnya — dan tidak ada yang ingat.
+   * Dengan menyimpan tahun mulainya, angkanya bertambah sendiri.
+   *
+   * Pertambahannya jatuh pada 1 Januari, bukan pada tanggal mulai yang
+   * sebenarnya. Kalau ketepatan bulan penting, tambahkan bulannya di sini dan
+   * sesuaikan `teachingYears()` di src/lib/experience.ts.
+   */
+  teachingSince: 2023,
+
+  /**
+   * Kredensial. WAJIB diisi data asli — jangan mengarang.
+   *
+   * Tiap butir ditampilkan sebagai satu angka besar di dalam kotak 米字格,
+   * seolah angkanya sedang dilatih menulis di kertas latihan. Karena itu
+   * `figure` harus PENDEK — dua atau tiga karakter. Begitu isinya jadi
+   * kalimat, ia tidak muat di kotak dan seluruh idenya rusak; taruh kata-
+   * katanya di `caption`.
+   *
+   * `{tahun}` pada `figure` diganti angka hasil hitungan saat dirender.
+   *
+   * Menambah hanzi baru di sini -> jalankan `npm run fonts:cjk`, kalau tidak
+   * hurufnya muncul sebagai kotak kosong.
+   */
   credentials: [
-    { label: "Pendidikan", value: "[PLACEHOLDER: mis. S1 Sastra Tionghoa, Universitas X]" },
-    { label: "Sertifikasi", value: "[PLACEHOLDER: mis. HSK 6 / sertifikat pengajar]" },
-    { label: "Pengalaman", value: "[PLACEHOLDER: X tahun mengajar]" },
-    { label: "Jumlah murid", value: "[PLACEHOLDER: mis. 100+ murid]" },
+    {
+      figure: "{tahun}",
+      hanzi: "年",
+      pinyin: "nián",
+      caption: "tahun mengajar",
+    },
+    {
+      figure: "20+",
+      hanzi: "学生",
+      pinyin: "xuéshēng",
+      caption: "murid",
+    },
   ],
+
+  /*
+   * PENDIDIKAN DAN SERTIFIKASI SENGAJA DISEMBUNYIKAN.
+   *
+   * Keduanya belum terisi data asli, dan baris kredensial yang kosong lebih
+   * merugikan daripada tidak ada barisnya sama sekali — pengunjung membaca
+   * ketiadaan itu sebagai jawaban. Dua baris yang tersisa berdiri sendiri
+   * dengan baik.
+   *
+   * Tinggal kembalikan ke array di atas kalau datanya sudah ada:
+   *   { label: "Pendidikan",  value: "..." }   mis. S1 Sastra Tionghoa, Universitas X
+   *   { label: "Sertifikasi", value: "..." }   mis. HSK 6 / sertifikat pengajar
+   */
 
   /*
    * Bagian ini sengaja TIDAK punya tombol WhatsApp.

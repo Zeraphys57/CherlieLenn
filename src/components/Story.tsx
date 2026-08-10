@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { story } from "@/lib/content";
+import { fillCredential } from "@/lib/experience";
 import SectionHeading from "./SectionHeading";
 import MizigeGrid from "./MizigeGrid";
 import Reveal from "./Reveal";
@@ -13,6 +14,19 @@ import Reveal from "./Reveal";
  * kredensialnya sendiri yang jadi jangkar visual, dengan 米字格 samar sebagai
  * latarnya.
  */
+/**
+ * Ukuran angka mengikuti panjangnya, seperti `SIZE_BY_LENGTH` di SealMark.
+ *
+ * Tanpa ini "3" berenang di tengah kotak sementara "20+" mepet ke tepinya, dan
+ * kedua kotak jadi terlihat berbeda bobot padahal ukurannya sama. Yang harus
+ * seragam bukan ukuran hurufnya, melainkan seberapa penuh kotaknya terisi.
+ */
+const FIGURE_SIZE_BY_LENGTH: Record<number, string> = {
+  1: "text-5xl sm:text-[3.25rem]",
+  2: "text-4xl sm:text-[2.75rem]",
+  3: "text-3xl sm:text-[2.25rem]",
+};
+
 export default function Story() {
   return (
     <section id="cerita" className="scroll-mt-24 px-5 py-24 sm:px-8 lg:py-32">
@@ -64,22 +78,55 @@ export default function Story() {
               </figure>
             )}
 
-            <div className="relative overflow-hidden border border-warm-gray/30 bg-paper-mid p-7 sm:p-8">
-              {/* Watermark 米字格 — sangat samar, sekadar mengingatkan kertas latihan. */}
-              <MizigeGrid
-                className="pointer-events-none absolute -right-8 -bottom-10 w-40 text-warm-gray/25"
-                border={false}
-              />
+            {/*
+              Watermark 米字格 yang dulu ada di sini SENGAJA DILEPAS.
+              Sekarang gridnya dipakai betulan sebagai bingkai angka, dan dua
+              米字格 dalam satu kartu — satu samar di latar, satu berisi angka —
+              membuat keduanya saling melemahkan.
+            */}
+            <div className="border border-warm-gray/30 bg-paper-mid p-7 sm:p-8">
+              <dl className="grid grid-cols-2 gap-6 sm:gap-8">
+                {story.credentials.map((credential) => {
+                  // Ukurannya ditentukan SETELAH {tahun} diganti: angkanya
+                  // bertambah sendiri tiap tahun, jadi "3" hari ini bisa jadi
+                  // "12" nanti dan butuh ukuran yang lebih kecil.
+                  const figure = fillCredential(credential.figure);
+                  const figureSize =
+                    FIGURE_SIZE_BY_LENGTH[figure.length] ?? "text-2xl sm:text-3xl";
 
-              <dl className="relative space-y-5">
-                {story.credentials.map((credential) => (
-                  <div key={credential.label}>
-                    <dt className="text-xs font-medium uppercase tracking-[0.16em] text-muted">
-                      {credential.label}
-                    </dt>
-                    <dd className="mt-1.5 text-base leading-snug text-ink">{credential.value}</dd>
-                  </div>
-                ))}
+                  return (
+                    // flex-col-reverse: <dd> digambar di atas <dt> tanpa
+                    // membalik urutan DOM-nya, sehingga pembaca layar tetap
+                    // mendengar "tahun mengajar" lalu "3" — istilah dulu, baru
+                    // nilainya, seperti daftar definisi yang benar.
+                    <div key={credential.caption} className="flex flex-col-reverse gap-3">
+                      <dt>
+                        <span className="flex items-baseline gap-2">
+                          <span className="hanzi text-base leading-none text-jade" lang="zh-Hans">
+                            {credential.hanzi}
+                          </span>
+                          <span className="pinyin text-xs tracking-wide text-muted">
+                            {credential.pinyin}
+                          </span>
+                        </span>
+                        <span className="mt-1.5 block text-sm leading-snug text-ink/80">
+                          {credential.caption}
+                        </span>
+                      </dt>
+
+                      {/* Angka di dalam kotak latihan — menggemakan 你好 di hero,
+                          di mana huruf juga duduk di dalam 米字格. */}
+                      <dd className="relative aspect-square w-full max-w-[6.5rem]">
+                        <MizigeGrid className="absolute inset-0 h-full w-full text-warm-gray/45" />
+                        <span
+                          className={`absolute inset-0 flex items-center justify-center font-display leading-none text-ink ${figureSize}`}
+                        >
+                          {figure}
+                        </span>
+                      </dd>
+                    </div>
+                  );
+                })}
               </dl>
             </div>
           </Reveal>
