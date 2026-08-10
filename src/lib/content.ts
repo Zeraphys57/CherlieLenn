@@ -151,8 +151,14 @@ export const site = {
   url: "https://cherlie-lenn.vercel.app",
   /** Kota. Kosongkan ("") kalau kelas 100% online. */
   city: "Pontianak",
-  email: "[PLACEHOLDER: email@domain.com]",
-  instagram: "[PLACEHOLDER: https://instagram.com/username]",
+  email: "cherliel268@gmail.com",
+  /**
+   * Ditulis sebagai ALAMAT LENGKAP, bukan "@cherlie_l".
+   * Footer memakainya langsung sebagai `href`, dan JSON-LD memakainya sebagai
+   * `sameAs` — keduanya menuntut URL utuh. Nama pengguna saja akan menghasilkan
+   * tautan rusak yang mengarah ke halaman situs ini sendiri.
+   */
+  instagram: "https://instagram.com/cherlie_l",
 } as const;
 
 /* -------------------------------------------------------------------------- */
